@@ -1,0 +1,424 @@
+openapi: 3.0.3
+info:
+  title: Book Management API
+  description: |
+    API quản lý sách - cho phép thực hiện các thao tác CRUD trên danh sách sách.
+
+    ## Tính năng
+    - Lấy danh sách sách (có hỗ trợ phân trang & tìm kiếm)
+    - Xem chi tiết một cuốn sách
+    - Thêm sách mới
+    - Cập nhật thông tin sách
+    - Xoá sách
+
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@bookapi.dev
+  license:
+    name: MIT
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local development server
+  - url: https://api.bookstore.example.com/v1
+    description: Production server
+
+tags:
+  - name: Books
+    description: Các thao tác quản lý sách
+
+paths:
+
+  /books:
+    get:
+      tags: [Books]
+      summary: Lấy danh sách sách
+      description: |
+        Trả về danh sách tất cả sách. Hỗ trợ phân trang và tìm kiếm theo tiêu đề hoặc tác giả.
+      operationId: listBooks
+      parameters:
+        - name: page
+          in: query
+          description: Số trang (bắt đầu từ 1)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+            example: 1
+        - name: limit
+          in: query
+          description: Số lượng sách mỗi trang
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+            example: 10
+        - name: search
+          in: query
+          description: Tìm kiếm theo tiêu đề hoặc tên tác giả
+          required: false
+          schema:
+            type: string
+            example: "Harry Potter"
+        - name: genre
+          in: query
+          description: Lọc theo thể loại
+          required: false
+          schema:
+            type: string
+            enum: [fiction, non-fiction, science, history, technology, children]
+            example: fiction
+      responses:
+        "200":
+          description: Danh sách sách thành công
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookListResponse"
+              example:
+                total: 2
+                page: 1
+                limit: 10
+                data:
+                  - id: 1
+                    title: "Nhà Giả Kim"
+                    author: "Paulo Coelho"
+                    genre: fiction
+                    price: 85000
+                    published_year: 1988
+                    available: true
+                  - id: 2
+                    title: "Đắc Nhân Tâm"
+                    author: "Dale Carnegie"
+                    genre: non-fiction
+                    price: 95000
+                    published_year: 1936
+                    available: true
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+    post:
+      tags: [Books]
+      summary: Thêm sách mới
+      description: Tạo một bản ghi sách mới trong hệ thống.
+      operationId: createBook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookCreate"
+            example:
+              title: "Clean Code"
+              author: "Robert C. Martin"
+              isbn: "9780132350884"
+              genre: technology
+              price: 320000
+              published_year: 2008
+              description: "Hướng dẫn viết code sạch, dễ bảo trì."
+              available: true
+      responses:
+        "201":
+          description: Tạo sách thành công
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          description: ISBN đã tồn tại
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                error: "CONFLICT"
+                message: "Sách với ISBN này đã tồn tại trong hệ thống."
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /books/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: ID của sách
+        schema:
+          type: integer
+          example: 1
+
+    get:
+      tags: [Books]
+      summary: Lấy thông tin một sách
+      description: Trả về thông tin chi tiết của một cuốn sách theo ID.
+      operationId: getBook
+      responses:
+        "200":
+          description: Thông tin sách
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookResponse"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+    put:
+      tags: [Books]
+      summary: Cập nhật thông tin sách
+      description: Cập nhật toàn bộ thông tin của một cuốn sách (full update).
+      operationId: updateBook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookCreate"
+            example:
+              title: "Clean Code (Updated Edition)"
+              author: "Robert C. Martin"
+              isbn: "9780132350884"
+              genre: technology
+              price: 350000
+              published_year: 2008
+              description: "Phiên bản cập nhật với nhiều ví dụ thực tế hơn."
+              available: true
+      responses:
+        "200":
+          description: Cập nhật thành công
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+    delete:
+      tags: [Books]
+      summary: Xoá sách
+      description: Xoá vĩnh viễn một cuốn sách khỏi hệ thống theo ID.
+      operationId: deleteBook
+      responses:
+        "200":
+          description: Xoá thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: "Sách đã được xoá thành công."
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+# ─────────────────────────────────────────────
+# COMPONENTS
+# ─────────────────────────────────────────────
+components:
+
+  schemas:
+
+    Book:
+      type: object
+      description: Đối tượng sách đầy đủ (bao gồm ID do server cấp)
+      properties:
+        id:
+          type: integer
+          description: ID tự tăng do server sinh ra
+          readOnly: true
+          example: 1
+        title:
+          type: string
+          description: Tiêu đề sách
+          example: "Clean Code"
+        author:
+          type: string
+          description: Tên tác giả
+          example: "Robert C. Martin"
+        isbn:
+          type: string
+          description: Mã ISBN (10 hoặc 13 chữ số)
+          pattern: "^(\\d{10}|\\d{13})$"
+          example: "9780132350884"
+        genre:
+          type: string
+          description: Thể loại sách
+          enum: [fiction, non-fiction, science, history, technology, children]
+          example: technology
+        price:
+          type: number
+          format: float
+          description: Giá bán (VNĐ)
+          minimum: 0
+          example: 320000
+        published_year:
+          type: integer
+          description: Năm xuất bản
+          minimum: 1000
+          maximum: 2100
+          example: 2008
+        description:
+          type: string
+          description: Mô tả ngắn về nội dung sách
+          example: "Hướng dẫn viết code sạch, dễ bảo trì."
+        available:
+          type: boolean
+          description: Sách còn hàng hay không
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Thời điểm thêm sách vào hệ thống
+          example: "2024-01-15T08:30:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Thời điểm cập nhật lần cuối
+          example: "2024-06-20T14:00:00Z"
+      required:
+        - id
+        - title
+        - author
+        - genre
+        - price
+        - available
+
+    BookCreate:
+      type: object
+      description: Dữ liệu cần thiết để tạo hoặc cập nhật sách
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: "Clean Code"
+        author:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: "Robert C. Martin"
+        isbn:
+          type: string
+          pattern: "^(\\d{10}|\\d{13})$"
+          example: "9780132350884"
+        genre:
+          type: string
+          enum: [fiction, non-fiction, science, history, technology, children]
+          example: technology
+        price:
+          type: number
+          format: float
+          minimum: 0
+          example: 320000
+        published_year:
+          type: integer
+          minimum: 1000
+          maximum: 2100
+          example: 2008
+        description:
+          type: string
+          maxLength: 1000
+          example: "Hướng dẫn viết code sạch, dễ bảo trì."
+        available:
+          type: boolean
+          default: true
+          example: true
+      required:
+        - title
+        - author
+        - genre
+        - price
+
+    BookResponse:
+      type: object
+      description: Response wrapper cho một cuốn sách
+      properties:
+        data:
+          $ref: "#/components/schemas/Book"
+
+    BookListResponse:
+      type: object
+      description: Response wrapper cho danh sách sách (có phân trang)
+      properties:
+        total:
+          type: integer
+          description: Tổng số sách (không tính phân trang)
+          example: 42
+        page:
+          type: integer
+          description: Trang hiện tại
+          example: 1
+        limit:
+          type: integer
+          description: Số sách mỗi trang
+          example: 10
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Book"
+
+    ErrorResponse:
+      type: object
+      description: Cấu trúc lỗi chuẩn
+      properties:
+        error:
+          type: string
+          description: Mã lỗi ngắn gọn
+          example: "NOT_FOUND"
+        message:
+          type: string
+          description: Mô tả chi tiết lỗi
+          example: "Không tìm thấy sách với ID được cung cấp."
+      required:
+        - error
+        - message
+
+  responses:
+
+    BadRequest:
+      description: Dữ liệu đầu vào không hợp lệ
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: "BAD_REQUEST"
+            message: "Trường 'title' là bắt buộc."
+
+    NotFound:
+      description: Không tìm thấy tài nguyên
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: "NOT_FOUND"
+            message: "Không tìm thấy sách với ID được cung cấp."
+
+    InternalError:
+      description: Lỗi máy chủ nội bộ
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            error: "INTERNAL_SERVER_ERROR"
+            message: "Đã xảy ra lỗi không mong muốn. Vui lòng thử lại sau."
