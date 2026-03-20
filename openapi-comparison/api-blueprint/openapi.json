@@ -1,0 +1,914 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Library Management API",
+        "version": "",
+        "description": "API quản lý thư viện — cho phép thực hiện CRUD trên sách và thành viên."
+    },
+    "host": "localhost:8001",
+    "basePath": "/api/v1",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/books": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "total": 2,
+                                "page": 1,
+                                "limit": 10,
+                                "data": [
+                                    {
+                                        "id": 1,
+                                        "title": "Nhà Giả Kim",
+                                        "author": "Paulo Coelho",
+                                        "genre": "fiction",
+                                        "price": 85000,
+                                        "available": true
+                                    },
+                                    {
+                                        "id": 2,
+                                        "title": "Đắc Nhân Tâm",
+                                        "author": "Dale Carnegie",
+                                        "genre": "non-fiction",
+                                        "price": 95000,
+                                        "available": true
+                                    }
+                                ]
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "total": {
+                                    "type": "number"
+                                },
+                                "page": {
+                                    "type": "number"
+                                },
+                                "limit": {
+                                    "type": "number"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            },
+                                            "title": {
+                                                "type": "string"
+                                            },
+                                            "author": {
+                                                "type": "string"
+                                            },
+                                            "genre": {
+                                                "type": "string"
+                                            },
+                                            "price": {
+                                                "type": "number"
+                                            },
+                                            "available": {
+                                                "type": "boolean"
+                                            }
+                                        },
+                                        "required": [
+                                            "id",
+                                            "title",
+                                            "author",
+                                            "genre",
+                                            "price",
+                                            "available"
+                                        ]
+                                    }
+                                }
+                            },
+                            "example": {
+                                "total": 2,
+                                "page": 1,
+                                "limit": 10,
+                                "data": [
+                                    {
+                                        "id": 1,
+                                        "title": "Nhà Giả Kim",
+                                        "author": "Paulo Coelho",
+                                        "genre": "fiction",
+                                        "price": 85000,
+                                        "available": true
+                                    },
+                                    {
+                                        "id": 2,
+                                        "title": "Đắc Nhân Tâm",
+                                        "author": "Dale Carnegie",
+                                        "genre": "non-fiction",
+                                        "price": 95000,
+                                        "available": true
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "summary": "Lấy danh sách sách",
+                "operationId": "Lấy danh sách sách",
+                "description": "",
+                "tags": [
+                    "Books"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Số trang",
+                        "required": false,
+                        "type": "number",
+                        "default": 1
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Số lượng mỗi trang",
+                        "required": false,
+                        "type": "number",
+                        "default": 10
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Tìm theo tiêu đề hoặc tác giả",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "genre",
+                        "in": "query",
+                        "description": "Lọc theo thể loại",
+                        "required": false,
+                        "type": "string",
+                        "enum": [
+                            "fiction",
+                            "non-fiction",
+                            "science",
+                            "history",
+                            "technology",
+                            "children"
+                        ]
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": []
+            },
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "data": {
+                                    "id": 3,
+                                    "title": "Clean Code",
+                                    "author": "Robert C. Martin",
+                                    "isbn": "9780132350884",
+                                    "genre": "technology",
+                                    "price": 320000,
+                                    "published_year": 2008,
+                                    "available": true,
+                                    "created_at": "2024-01-15T08:30:00Z"
+                                }
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "author": {
+                                            "type": "string"
+                                        },
+                                        "isbn": {
+                                            "type": "string"
+                                        },
+                                        "genre": {
+                                            "type": "string"
+                                        },
+                                        "price": {
+                                            "type": "number"
+                                        },
+                                        "published_year": {
+                                            "type": "number"
+                                        },
+                                        "available": {
+                                            "type": "boolean"
+                                        },
+                                        "created_at": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "example": {
+                                "data": {
+                                    "id": 3,
+                                    "title": "Clean Code",
+                                    "author": "Robert C. Martin",
+                                    "isbn": "9780132350884",
+                                    "genre": "technology",
+                                    "price": 320000,
+                                    "published_year": 2008,
+                                    "available": true,
+                                    "created_at": "2024-01-15T08:30:00Z"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "error": "BAD_REQUEST",
+                                "message": "Trường 'title' là bắt buộc."
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "error": "BAD_REQUEST",
+                                "message": "Trường 'title' là bắt buộc."
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "error": "CONFLICT",
+                                "message": "ISBN đã tồn tại."
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "error": "CONFLICT",
+                                "message": "ISBN đã tồn tại."
+                            }
+                        }
+                    }
+                },
+                "summary": "Thêm sách mới",
+                "operationId": "Thêm sách mới",
+                "description": "",
+                "tags": [
+                    "Books"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "author": {
+                                    "type": "string"
+                                },
+                                "isbn": {
+                                    "type": "string"
+                                },
+                                "genre": {
+                                    "type": "string"
+                                },
+                                "price": {
+                                    "type": "number"
+                                },
+                                "published_year": {
+                                    "type": "number"
+                                },
+                                "available": {
+                                    "type": "boolean"
+                                }
+                            },
+                            "example": {
+                                "title": "Clean Code",
+                                "author": "Robert C. Martin",
+                                "isbn": "9780132350884",
+                                "genre": "technology",
+                                "price": 320000,
+                                "published_year": 2008,
+                                "available": true
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        },
+        "/books/{id}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "data": {
+                                    "id": 1,
+                                    "title": "Nhà Giả Kim",
+                                    "author": "Paulo Coelho",
+                                    "genre": "fiction",
+                                    "price": 85000,
+                                    "available": true
+                                }
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "author": {
+                                            "type": "string"
+                                        },
+                                        "genre": {
+                                            "type": "string"
+                                        },
+                                        "price": {
+                                            "type": "number"
+                                        },
+                                        "available": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            },
+                            "example": {
+                                "data": {
+                                    "id": 1,
+                                    "title": "Nhà Giả Kim",
+                                    "author": "Paulo Coelho",
+                                    "genre": "fiction",
+                                    "price": 85000,
+                                    "available": true
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "error": "NOT_FOUND",
+                                "message": "Không tìm thấy sách."
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "error": "NOT_FOUND",
+                                "message": "Không tìm thấy sách."
+                            }
+                        }
+                    }
+                },
+                "summary": "Lấy thông tin một sách",
+                "operationId": "Lấy thông tin một sách",
+                "description": "",
+                "tags": [
+                    "Books"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của sách",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": []
+            },
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "data": {
+                                    "id": 3,
+                                    "title": "Clean Code (Updated)"
+                                }
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "example": {
+                                "data": {
+                                    "id": 3,
+                                    "title": "Clean Code (Updated)"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "error": "NOT_FOUND",
+                                "message": "Không tìm thấy sách."
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "error": "NOT_FOUND",
+                                "message": "Không tìm thấy sách."
+                            }
+                        }
+                    }
+                },
+                "summary": "Cập nhật sách",
+                "operationId": "Cập nhật sách",
+                "description": "",
+                "tags": [
+                    "Books"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của sách",
+                        "required": true,
+                        "type": "number"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "author": {
+                                    "type": "string"
+                                },
+                                "genre": {
+                                    "type": "string"
+                                },
+                                "price": {
+                                    "type": "number"
+                                },
+                                "available": {
+                                    "type": "boolean"
+                                }
+                            },
+                            "example": {
+                                "title": "Clean Code (Updated)",
+                                "author": "Robert C. Martin",
+                                "genre": "technology",
+                                "price": 350000,
+                                "available": true
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "message": "Sách đã được xoá thành công."
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "message": "Sách đã được xoá thành công."
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "error": "NOT_FOUND",
+                                "message": "Không tìm thấy sách."
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "error": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "error": "NOT_FOUND",
+                                "message": "Không tìm thấy sách."
+                            }
+                        }
+                    }
+                },
+                "summary": "Xoá sách",
+                "operationId": "Xoá sách",
+                "description": "",
+                "tags": [
+                    "Books"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID của sách",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": []
+            }
+        },
+        "/members": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "total": 1,
+                                "data": [
+                                    {
+                                        "id": 1,
+                                        "name": "Nguyễn Văn A",
+                                        "email": "nguyenvana@email.com",
+                                        "joined_date": "2024-01-01"
+                                    }
+                                ]
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "total": {
+                                    "type": "number"
+                                },
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "email": {
+                                                "type": "string"
+                                            },
+                                            "joined_date": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "example": {
+                                "total": 1,
+                                "data": [
+                                    {
+                                        "id": 1,
+                                        "name": "Nguyễn Văn A",
+                                        "email": "nguyenvana@email.com",
+                                        "joined_date": "2024-01-01"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "summary": "Lấy danh sách thành viên",
+                "operationId": "Lấy danh sách thành viên",
+                "description": "",
+                "tags": [
+                    "Members"
+                ],
+                "parameters": [],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": []
+            },
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "headers": {},
+                        "examples": {
+                            "application/json": {
+                                "data": {
+                                    "id": 2,
+                                    "name": "Nguyễn Văn B",
+                                    "email": "nguyenvanb@email.com",
+                                    "joined_date": "2024-06-20"
+                                }
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        },
+                                        "joined_date": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "example": {
+                                "data": {
+                                    "id": 2,
+                                    "name": "Nguyễn Văn B",
+                                    "email": "nguyenvanb@email.com",
+                                    "joined_date": "2024-06-20"
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Đăng ký thành viên mới",
+                "operationId": "Đăng ký thành viên mới",
+                "description": "",
+                "tags": [
+                    "Members"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "name": "Nguyễn Văn B",
+                                "email": "nguyenvanb@email.com"
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/json"
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "Books Collection": {},
+        "Book": {
+            "type": "object",
+            "required": [
+                "id",
+                "title",
+                "author",
+                "genre",
+                "price",
+                "available"
+            ],
+            "properties": {
+                "id": {
+                    "type": "number",
+                    "example": 1
+                },
+                "title": {
+                    "type": "string",
+                    "example": "Clean Code"
+                },
+                "author": {
+                    "type": "string",
+                    "example": "Robert C. Martin"
+                },
+                "isbn": {
+                    "type": "string",
+                    "example": "9780132350884"
+                },
+                "genre": {
+                    "type": "string",
+                    "example": "technology"
+                },
+                "price": {
+                    "type": "number",
+                    "example": 320000
+                },
+                "published_year": {
+                    "type": "number",
+                    "example": 2008
+                },
+                "description": {
+                    "type": "string",
+                    "example": "Mô tả sách"
+                },
+                "available": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2024-01-15T08:30:00Z"
+                }
+            }
+        },
+        "Members Collection": {},
+        "BookCreate": {
+            "type": "object",
+            "required": [
+                "title",
+                "author",
+                "genre",
+                "price"
+            ],
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "example": "Clean Code"
+                },
+                "author": {
+                    "type": "string",
+                    "example": "Robert C. Martin"
+                },
+                "isbn": {
+                    "type": "string",
+                    "example": "9780132350884"
+                },
+                "genre": {
+                    "type": "string",
+                    "example": "technology"
+                },
+                "price": {
+                    "type": "number",
+                    "example": 320000
+                },
+                "published_year": {
+                    "type": "number",
+                    "example": 2008
+                },
+                "description": {
+                    "type": "string",
+                    "example": "Mô tả sách"
+                },
+                "available": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "required": [
+                "error",
+                "message"
+            ],
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "NOT_FOUND"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Không tìm thấy tài nguyên"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {},
+    "tags": [
+        {
+            "name": "Books"
+        },
+        {
+            "name": "Members"
+        }
+    ]
+}

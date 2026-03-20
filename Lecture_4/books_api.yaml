@@ -19,10 +19,10 @@ info:
     name: MIT
 
 servers:
-  - url: http://localhost:8000/api/v1
+  - url: http://localhost:8000
     description: Local development server
-  - url: https://api.bookstore.example.com/v1
-    description: Production server
+  - url: https://two526ii-int3505-1-wcn4.onrender.com
+    description: Production server (Render)
 
 tags:
   - name: Books

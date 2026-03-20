@@ -1,2 +1,4 @@
 flask
 flask-swagger-ui
+flask-cors
+pyyaml
