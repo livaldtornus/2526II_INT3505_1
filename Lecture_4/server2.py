@@ -1,3 +1,4 @@
+import os
 from flask import Flask, send_file, redirect
 from flask_swagger_ui import get_swaggerui_blueprint
 
@@ -24,5 +25,5 @@ def serve_yaml():
 
 
 if __name__ == "__main__":
-port = int(os.environ.get("PORT", 8000))
-app.run(host="0.0.0.0", port=port)
+    port = int(os.environ.get("PORT", 8000))
+    app.run(host="0.0.0.0", port=port)
