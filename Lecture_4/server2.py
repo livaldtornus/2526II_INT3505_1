@@ -1,4 +1,4 @@
-from flask import Flask, send_file
+from flask import Flask, send_file, redirect
 from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
@@ -11,6 +11,11 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 )
 
 app.register_blueprint(swaggerui_blueprint)
+
+
+@app.route("/")
+def index():
+    return redirect("/docs")
 
 
 @app.route("/openapi.yaml")
