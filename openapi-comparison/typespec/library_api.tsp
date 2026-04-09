@@ -1,9 +1,10 @@
 import "@typespec/http";
 import "@typespec/openapi3";
 
-using Http;
+using TypeSpec.Http;
+using TypeSpec.Lifecycle;
 
-@service(#{
+@service({
   title: "Library Management API",
 })
 @server("http://localhost:8003/api/v1", "Local development server")

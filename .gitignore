@@ -35,3 +35,15 @@ ENV/
 # OS specific
 .DS_Store
 Thumbs.db
+
+# Caches, Tools & Workspaces
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.tox/
+.coverage
+htmlcov/
+.vscode/
+.idea/
+*.log
