@@ -20,8 +20,8 @@ app.use(cors());
 const CONFIG = {
   ACCESS_TOKEN_SECRET: "super-secret-access-key-change-in-production",
   REFRESH_TOKEN_SECRET: "super-secret-refresh-key-change-in-production",
-  ACCESS_TOKEN_EXPIRY: "15m",   // Short-lived access token
-  REFRESH_TOKEN_EXPIRY: "7d",   // Long-lived refresh token
+  ACCESS_TOKEN_EXPIRY: "5s",    // Very short for testing
+  REFRESH_TOKEN_EXPIRY: "30s",   // Short for testing
 };
 
 // ─────────────────────────────────────────────
@@ -127,8 +127,8 @@ function generateTokens(user) {
 
 // Rate limiting - prevent brute force
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 10,
+  windowMs: 15 * 60 * 1000, 
+  max: 100,
   message: { error: "Too many requests, please try again later." },
 });
 

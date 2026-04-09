@@ -123,7 +123,7 @@ class JWTClient:
             self.refresh_token = None
             return False
 
-    def ensure_valid_token(self, refresh_threshold: float = 60.0) -> bool:
+    def ensure_valid_token(self, refresh_threshold: float = 3.0) -> bool:
         """Auto-refresh if access token expires within threshold seconds."""
         if not self.access_token:
             return False
@@ -208,26 +208,45 @@ def demo_role_based_access():
                      client.get("/api/admin/users"))
 
 
-def demo_token_refresh():
+def demo_full_lifecycle_expiration():
     print("\n" + "━"*60)
-    print("🔄 DEMO 2: Token Refresh Flow")
+    print("⏳ DEMO 2 (UPGRADE): Full Expiration Lifecycle")
     print("━"*60)
+    print("  (Server keys: Access=5s, Refresh=30s)")
 
     client = JWTClient()
     client.login("editor", "editor123")
-    client.introspect()
+    
+    # 1. Test Auto-refresh
+    print(f"\n  [1] Testing AUTO-REFRESH:")
+    print(f"      Waiting 3s (token will have < 2s left)...")
+    time.sleep(3)
+    # The get() call internally calls ensure_valid_token(3.0)
+    resp = client.get("/api/profile")
+    print_result("GET /api/profile (expected auto-refresh triggered)", resp)
 
-    print("\n  Simulating token refresh (normally happens auto when near expiry)...")
-    old_token = client.access_token[:30]
-    client.refresh()
-    new_token = client.access_token[:30]
+    # 2. Test Hard Expiration (Force failure)
+    print(f"\n  [2] Testing HARD EXPIRATION (bypassing auto-refresh):")
+    print(f"      Waiting 6s...")
+    time.sleep(6)
+    # Use direct http_request to avoid auto-refresh logic
+    resp = http_request("GET", "/api/profile", headers=client._auth_header())
+    print_result("GET /api/profile (bypassing client logic)", resp)
+    if resp["status"] == 401:
+        print(f"      CORRECT: Server rejected expired token!")
 
-    print(f"\n  Old token: {old_token}...")
-    print(f"  New token: {new_token}...")
-    print(f"  Tokens rotated: {old_token != new_token}")
+    # 3. Test Refreshing after hard expiry
+    print(f"\n  [3] Testing manual REFRESH after access token expired:")
+    if client.refresh():
+        print_result("GET /api/profile (with brand new tokens)", client.get("/api/profile"))
 
-    print("\n  Testing with new token:")
-    print_result("GET /api/profile", client.get("/api/profile"))
+    # 4. Test Refresh Token Expiration
+    print(f"\n  [4] Testing REFRESH TOKEN EXPIRY:")
+    print(f"      Waiting 31s (Refresh token set to 30s)...")
+    time.sleep(31) 
+    print(f"      Attempting to refresh after 31s delay:")
+    client.refresh() # Should fail now as refresh token is expired on server
+
 
 
 def demo_security_audit():
@@ -314,7 +333,7 @@ if __name__ == "__main__":
         exit(1)
 
     demo_role_based_access()
-    demo_token_refresh()
+    demo_full_lifecycle_expiration()
     demo_security_audit()
     demo_logout_and_revoke()
     demo_audit_log()
