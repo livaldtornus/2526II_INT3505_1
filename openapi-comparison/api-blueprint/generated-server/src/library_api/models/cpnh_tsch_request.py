@@ -21,7 +21,7 @@ import json
 
 
 from pydantic import BaseModel, ConfigDict, StrictBool
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing import Any, ClassVar, Dict, List, Optional
 try:
     from typing import Self
 except ImportError:
@@ -34,7 +34,7 @@ class CPNhTSChRequest(BaseModel):
     title: Optional[str] = None
     author: Optional[str] = None
     genre: Optional[str] = None
-    price: Optional[float] = None
+    price: Optional[int] = None
     available: Optional[StrictBool] = None
     __properties: ClassVar[List[str]] = ["title", "author", "genre", "price", "available"]
 

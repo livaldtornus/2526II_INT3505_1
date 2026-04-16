@@ -24,7 +24,7 @@ from fastapi import (  # noqa: F401
 
 from library_api.models.extra_models import TokenModel  # noqa: F401
 from pydantic import Field, field_validator
-from typing import Optional, Union
+from typing import Optional
 from typing_extensions import Annotated
 from library_api.models.cpnh_tsch200_response import CPNhTSCh200Response
 from library_api.models.cpnh_tsch_request import CPNhTSChRequest
@@ -53,8 +53,8 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     response_model_by_alias=True,
 )
 async def ly_danh_sch_sch(
-    page: Annotated[Optional[float], Field(description="Số trang")] = Query(1, description="Số trang", alias="page"),
-    limit: Annotated[Optional[float], Field(description="Số lượng mỗi trang")] = Query(10, description="Số lượng mỗi trang", alias="limit"),
+    page: Annotated[Optional[int], Field(description="Số trang")] = Query(1, description="Số trang", alias="page"),
+    limit: Annotated[Optional[int], Field(description="Số lượng mỗi trang")] = Query(10, description="Số lượng mỗi trang", alias="limit"),
     search: Annotated[Optional[str], Field(description="Tìm theo tiêu đề hoặc tác giả")] = Query(None, description="Tìm theo tiêu đề hoặc tác giả", alias="search"),
     genre: Annotated[Optional[str], Field(description="Lọc theo thể loại")] = Query(None, description="Lọc theo thể loại", alias="genre"),
 ) -> LYDanhSChSCh200Response:
@@ -95,7 +95,7 @@ async def thm_sch_mi(
     response_model_by_alias=True,
 )
 async def ly_thng_tin_mt_sch(
-    id: Annotated[float, Field(description="ID của sách")] = Path(..., description="ID của sách"),
+    id: Annotated[int, Field(description="ID của sách")] = Path(..., description="ID của sách"),
 ) -> LYThNgTinMTSCh200Response:
     """"""
     if not BaseBooksApi.subclasses:
@@ -114,7 +114,7 @@ async def ly_thng_tin_mt_sch(
     response_model_by_alias=True,
 )
 async def cp_nht_sch(
-    id: Annotated[float, Field(description="ID của sách")] = Path(..., description="ID của sách"),
+    id: Annotated[int, Field(description="ID của sách")] = Path(..., description="ID của sách"),
     cpnh_tsch_request: Optional[CPNhTSChRequest] = Body(None, description=""),
 ) -> CPNhTSCh200Response:
     """"""
@@ -134,7 +134,7 @@ async def cp_nht_sch(
     response_model_by_alias=True,
 )
 async def xo_sch(
-    id: Annotated[float, Field(description="ID của sách")] = Path(..., description="ID của sách"),
+    id: Annotated[int, Field(description="ID của sách")] = Path(..., description="ID của sách"),
 ) -> XoSCh200Response:
     """"""
     if not BaseBooksApi.subclasses:

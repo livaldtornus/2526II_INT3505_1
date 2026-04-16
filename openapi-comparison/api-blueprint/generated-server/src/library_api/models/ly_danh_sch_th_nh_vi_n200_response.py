@@ -21,7 +21,7 @@ import json
 
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing import Any, ClassVar, Dict, List, Optional
 from library_api.models.ly_danh_sch_th_nh_vi_n200_response_data_inner import LYDanhSChThNhViN200ResponseDataInner
 try:
     from typing import Self
@@ -32,7 +32,7 @@ class LYDanhSChThNhViN200Response(BaseModel):
     """
     LYDanhSChThNhViN200Response
     """ # noqa: E501
-    total: Optional[float] = None
+    total: Optional[int] = None
     data: Optional[List[LYDanhSChThNhViN200ResponseDataInner]] = None
     __properties: ClassVar[List[str]] = ["total", "data"]
 

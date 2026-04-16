@@ -21,7 +21,7 @@ import json
 
 
 from pydantic import BaseModel, ConfigDict, StrictBool
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing import Any, ClassVar, Dict, List, Optional
 try:
     from typing import Self
 except ImportError:
@@ -31,13 +31,13 @@ class Book(BaseModel):
     """
     Book
     """ # noqa: E501
-    id: float
+    id: int
     title: str
     author: str
     isbn: Optional[str] = None
     genre: str
-    price: float
-    published_year: Optional[float] = None
+    price: int
+    published_year: Optional[int] = None
     description: Optional[str] = None
     available: StrictBool
     created_at: Optional[str] = None

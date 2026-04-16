@@ -21,7 +21,7 @@ import json
 
 
 from pydantic import BaseModel, ConfigDict
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing import Any, ClassVar, Dict, List, Optional
 try:
     from typing import Self
 except ImportError:
@@ -31,7 +31,7 @@ class CPNhTSCh200ResponseData(BaseModel):
     """
     CPNhTSCh200ResponseData
     """ # noqa: E501
-    id: Optional[float] = None
+    id: Optional[int] = None
     title: Optional[str] = None
     __properties: ClassVar[List[str]] = ["id", "title"]
 

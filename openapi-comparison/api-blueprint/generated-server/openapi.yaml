@@ -21,7 +21,7 @@ paths:
         required: false
         schema:
           default: 1
-          type: number
+          type: integer
         style: form
       - description: Số lượng mỗi trang
         explode: true
@@ -30,7 +30,7 @@ paths:
         required: false
         schema:
           default: 10
-          type: number
+          type: integer
         style: form
       - description: Tìm theo tiêu đề hoặc tác giả
         explode: true
@@ -149,7 +149,7 @@ paths:
         name: id
         required: true
         schema:
-          type: number
+          type: integer
         style: simple
       responses:
         "200":
@@ -182,7 +182,7 @@ paths:
         name: id
         required: true
         schema:
-          type: number
+          type: integer
         style: simple
       responses:
         "200":
@@ -221,7 +221,7 @@ paths:
         name: id
         required: true
         schema:
-          type: number
+          type: integer
         style: simple
       requestBody:
         content:
@@ -313,7 +313,7 @@ components:
       properties:
         id:
           example: 1
-          type: number
+          type: integer
         title:
           example: Clean Code
           type: string
@@ -328,10 +328,10 @@ components:
           type: string
         price:
           example: 320000
-          type: number
+          type: integer
         published_year:
           example: 2008
-          type: number
+          type: integer
         description:
           example: Mô tả sách
           type: string
@@ -365,10 +365,10 @@ components:
           type: string
         price:
           example: 320000
-          type: number
+          type: integer
         published_year:
           example: 2008
-          type: number
+          type: integer
         description:
           example: Mô tả sách
           type: string
@@ -396,15 +396,15 @@ components:
     L_y_danh_s_ch_s_ch_200_response_data_inner:
       example:
         author: author
-        price: 5.637376656633329
+        price: 5
         genre: genre
         available: true
-        id: 5.962133916683182
+        id: 5
         title: title
       properties:
         id:
           title: id
-          type: number
+          type: integer
         title:
           title: title
           type: string
@@ -416,7 +416,7 @@ components:
           type: string
         price:
           title: price
-          type: number
+          type: integer
         available:
           title: available
           type: boolean
@@ -431,32 +431,32 @@ components:
       type: object
     L_y_danh_s_ch_s_ch_200_response:
       example:
-        total: 0.8008281904610115
+        total: 0
         data:
         - author: author
-          price: 5.637376656633329
+          price: 5
           genre: genre
           available: true
-          id: 5.962133916683182
+          id: 5
           title: title
         - author: author
-          price: 5.637376656633329
+          price: 5
           genre: genre
           available: true
-          id: 5.962133916683182
+          id: 5
           title: title
-        limit: 1.4658129805029452
-        page: 6.027456183070403
+        limit: 1
+        page: 6
       properties:
         total:
           title: total
-          type: number
+          type: integer
         page:
           title: page
-          type: number
+          type: integer
         limit:
           title: limit
-          type: number
+          type: integer
         data:
           items:
             $ref: "#/components/schemas/L_y_danh_s_ch_s_ch_200_response_data_inner"
@@ -480,10 +480,10 @@ components:
           type: string
         price:
           title: price
-          type: number
+          type: integer
         published_year:
           title: published_year
-          type: number
+          type: integer
         available:
           title: available
           type: boolean
@@ -491,19 +491,19 @@ components:
       type: object
     Th_m_s_ch_m_i_201_response_data:
       example:
-        published_year: 1.4658129805029452
+        published_year: 1
         author: author
-        price: 6.027456183070403
+        price: 6
         isbn: isbn
         genre: genre
         available: true
         created_at: created_at
-        id: 0.8008281904610115
+        id: 0
         title: title
       properties:
         id:
           title: id
-          type: number
+          type: integer
         title:
           title: title
           type: string
@@ -518,10 +518,10 @@ components:
           type: string
         price:
           title: price
-          type: number
+          type: integer
         published_year:
           title: published_year
-          type: number
+          type: integer
         available:
           title: available
           type: boolean
@@ -533,14 +533,14 @@ components:
     Th_m_s_ch_m_i_201_response:
       example:
         data:
-          published_year: 1.4658129805029452
+          published_year: 1
           author: author
-          price: 6.027456183070403
+          price: 6
           isbn: isbn
           genre: genre
           available: true
           created_at: created_at
-          id: 0.8008281904610115
+          id: 0
           title: title
       properties:
         data:
@@ -563,15 +563,15 @@ components:
     L_y_th_ng_tin_m_t_s_ch_200_response_data:
       example:
         author: author
-        price: 6.027456183070403
+        price: 6
         genre: genre
         available: true
-        id: 0.8008281904610115
+        id: 0
         title: title
       properties:
         id:
           title: id
-          type: number
+          type: integer
         title:
           title: title
           type: string
@@ -583,7 +583,7 @@ components:
           type: string
         price:
           title: price
-          type: number
+          type: integer
         available:
           title: available
           type: boolean
@@ -593,10 +593,10 @@ components:
       example:
         data:
           author: author
-          price: 6.027456183070403
+          price: 6
           genre: genre
           available: true
-          id: 0.8008281904610115
+          id: 0
           title: title
       properties:
         data:
@@ -616,7 +616,7 @@ components:
           type: string
         price:
           title: price
-          type: number
+          type: integer
         available:
           title: available
           type: boolean
@@ -624,12 +624,12 @@ components:
       type: object
     C_p_nh_t_s_ch_200_response_data:
       example:
-        id: 0.8008281904610115
+        id: 0
         title: title
       properties:
         id:
           title: id
-          type: number
+          type: integer
         title:
           title: title
           type: string
@@ -638,7 +638,7 @@ components:
     C_p_nh_t_s_ch_200_response:
       example:
         data:
-          id: 0.8008281904610115
+          id: 0
           title: title
       properties:
         data:
@@ -658,12 +658,12 @@ components:
       example:
         joined_date: joined_date
         name: name
-        id: 6.027456183070403
+        id: 6
         email: email
       properties:
         id:
           title: id
-          type: number
+          type: integer
         name:
           title: name
           type: string
@@ -677,20 +677,20 @@ components:
       type: object
     L_y_danh_s_ch_th_nh_vi_n_200_response:
       example:
-        total: 0.8008281904610115
+        total: 0
         data:
         - joined_date: joined_date
           name: name
-          id: 6.027456183070403
+          id: 6
           email: email
         - joined_date: joined_date
           name: name
-          id: 6.027456183070403
+          id: 6
           email: email
       properties:
         total:
           title: total
-          type: number
+          type: integer
         data:
           items:
             $ref: "#/components/schemas/L_y_danh_s_ch_th_nh_vi_n_200_response_data_inner"
@@ -713,7 +713,7 @@ components:
         data:
           joined_date: joined_date
           name: name
-          id: 6.027456183070403
+          id: 6
           email: email
       properties:
         data:

@@ -23,13 +23,13 @@
                                     "type": "object",
                                     "properties": {
                                         "total": {
-                                            "type": "number"
+                                            "type": "integer"
                                         },
                                         "page": {
-                                            "type": "number"
+                                            "type": "integer"
                                         },
                                         "limit": {
-                                            "type": "number"
+                                            "type": "integer"
                                         },
                                         "data": {
                                             "type": "array",
@@ -37,7 +37,7 @@
                                                 "type": "object",
                                                 "properties": {
                                                     "id": {
-                                                        "type": "number"
+                                                        "type": "integer"
                                                     },
                                                     "title": {
                                                         "type": "string"
@@ -49,7 +49,7 @@
                                                         "type": "string"
                                                     },
                                                     "price": {
-                                                        "type": "number"
+                                                        "type": "integer"
                                                     },
                                                     "available": {
                                                         "type": "boolean"
@@ -106,7 +106,7 @@
                         "in": "query",
                         "description": "Số trang",
                         "schema": {
-                            "type": "number",
+                            "type": "integer",
                             "default": 1
                         }
                     },
@@ -115,7 +115,7 @@
                         "in": "query",
                         "description": "Số lượng mỗi trang",
                         "schema": {
-                            "type": "number",
+                            "type": "integer",
                             "default": 10
                         }
                     },
@@ -159,7 +159,7 @@
                                             "type": "object",
                                             "properties": {
                                                 "id": {
-                                                    "type": "number"
+                                                    "type": "integer"
                                                 },
                                                 "title": {
                                                     "type": "string"
@@ -174,10 +174,10 @@
                                                     "type": "string"
                                                 },
                                                 "price": {
-                                                    "type": "number"
+                                                    "type": "integer"
                                                 },
                                                 "published_year": {
-                                                    "type": "number"
+                                                    "type": "integer"
                                                 },
                                                 "available": {
                                                     "type": "boolean"
@@ -287,10 +287,10 @@
                                         "type": "string"
                                     },
                                     "price": {
-                                        "type": "number"
+                                        "type": "integer"
                                     },
                                     "published_year": {
-                                        "type": "number"
+                                        "type": "integer"
                                     },
                                     "available": {
                                         "type": "boolean"
@@ -317,7 +317,7 @@
                                             "type": "object",
                                             "properties": {
                                                 "id": {
-                                                    "type": "number"
+                                                    "type": "integer"
                                                 },
                                                 "title": {
                                                     "type": "string"
@@ -329,7 +329,7 @@
                                                     "type": "string"
                                                 },
                                                 "price": {
-                                                    "type": "number"
+                                                    "type": "integer"
                                                 },
                                                 "available": {
                                                     "type": "boolean"
@@ -388,7 +388,7 @@
                         "description": "ID của sách",
                         "required": true,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     }
                 ]
@@ -407,7 +407,7 @@
                                             "type": "object",
                                             "properties": {
                                                 "id": {
-                                                    "type": "number"
+                                                    "type": "integer"
                                                 },
                                                 "title": {
                                                     "type": "string"
@@ -462,7 +462,7 @@
                         "description": "ID của sách",
                         "required": true,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     }
                 ],
@@ -489,7 +489,7 @@
                                         "type": "string"
                                     },
                                     "price": {
-                                        "type": "number"
+                                        "type": "integer"
                                     },
                                     "available": {
                                         "type": "boolean"
@@ -558,7 +558,7 @@
                         "description": "ID của sách",
                         "required": true,
                         "schema": {
-                            "type": "number"
+                            "type": "integer"
                         }
                     }
                 ]
@@ -576,7 +576,7 @@
                                     "type": "object",
                                     "properties": {
                                         "total": {
-                                            "type": "number"
+                                            "type": "integer"
                                         },
                                         "data": {
                                             "type": "array",
@@ -584,7 +584,7 @@
                                                 "type": "object",
                                                 "properties": {
                                                     "id": {
-                                                        "type": "number"
+                                                        "type": "integer"
                                                     },
                                                     "name": {
                                                         "type": "string"
@@ -637,7 +637,7 @@
                                             "type": "object",
                                             "properties": {
                                                 "id": {
-                                                    "type": "number"
+                                                    "type": "integer"
                                                 },
                                                 "name": {
                                                     "type": "string"
@@ -709,7 +709,7 @@
                 ],
                 "properties": {
                     "id": {
-                        "type": "number",
+                        "type": "integer",
                         "example": 1
                     },
                     "title": {
@@ -729,11 +729,11 @@
                         "example": "technology"
                     },
                     "price": {
-                        "type": "number",
+                        "type": "integer",
                         "example": 320000
                     },
                     "published_year": {
-                        "type": "number",
+                        "type": "integer",
                         "example": 2008
                     },
                     "description": {
@@ -776,11 +776,11 @@
                         "example": "technology"
                     },
                     "price": {
-                        "type": "number",
+                        "type": "integer",
                         "example": 320000
                     },
                     "published_year": {
-                        "type": "number",
+                        "type": "integer",
                         "example": 2008
                     },
                     "description": {

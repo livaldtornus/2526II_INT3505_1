@@ -21,7 +21,7 @@ import json
 
 
 from pydantic import BaseModel, ConfigDict, StrictBool
-from typing import Any, ClassVar, Dict, List, Union
+from typing import Any, ClassVar, Dict, List
 try:
     from typing import Self
 except ImportError:
@@ -31,11 +31,11 @@ class LYDanhSChSCh200ResponseDataInner(BaseModel):
     """
     LYDanhSChSCh200ResponseDataInner
     """ # noqa: E501
-    id: float
+    id: int
     title: str
     author: str
     genre: str
-    price: float
+    price: int
     available: StrictBool
     __properties: ClassVar[List[str]] = ["id", "title", "author", "genre", "price", "available"]
 

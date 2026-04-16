@@ -10,8 +10,6 @@ from library_api.models.th_msch_mi_request import ThMSChMIRequest
 from library_api.models.xo_sch200_response import XoSCh200Response
 
 class BooksApiImpl(BaseBooksApi):
-    
-    # 1. API: Lấy danh sách sách
     async def ly_danh_sch_sch(
         self,
         page: Optional[int],
@@ -19,52 +17,21 @@ class BooksApiImpl(BaseBooksApi):
         search: Optional[str],
         genre: Optional[str],
     ) -> LYDanhSChSCh200Response:
-        
         mock_data = [
-            {
-                "id": 1,
-                "title": "Nhà Giả Kim (Bản đã lập trình)",
-                "author": "Paulo Coelho",
-                "genre": "fiction",
-                "price": 85000,
-                "available": True
-            },
-            {
-                "id": 2,
-                "title": "Code Dạo Ký Sự",
-                "author": "Phạm Huy Hoàng",
-                "genre": "technology",
-                "price": 105000,
-                "available": True
-            }
+            {"id": 1, "title": "Sách Mẫu", "author": "Tác giả", "genre": "fiction", "price": 85000, "available": True}
         ]
-        
         return LYDanhSChSCh200Response(
             total=len(mock_data),
-            page=page if page is not None else 1,
-            limit=limit if limit is not None else 10,
+            page=page if page else 1,
+            limit=limit if limit else 10,
             data=mock_data
         )
 
-    # 2. API: Lấy thông tin một sách theo ID
-    async def ly_thng_tin_mt_sch(
-        self,
-        id: int,
-    ) -> LYThNgTinMTSCh200Response:
-        
-        # Giả lập trả về sách đầu tiên luôn
+    async def ly_thng_tin_mt_sch(self, id: int) -> LYThNgTinMTSCh200Response:
         return LYThNgTinMTSCh200Response(
-            data={
-                "id": id,
-                "title": f"Sách số {id}",
-                "author": "Tác giả ngẫu nhiên",
-                "genre": "technology",
-                "price": 50000,
-                "available": True
-            }
+            data={"id": id, "title": f"Sách số {id}", "author": "Tác giả", "genre": "technology", "price": 50000, "available": True}
         )
 
-    # (Các hàm thêm/sửa/xoá khác nếu cần cũng có thể implement như trên)
     async def thm_sch_mi(self, th_msch_mi_request: Optional[ThMSChMIRequest]) -> ThMSChMI201Response:
         pass
     

@@ -3,7 +3,7 @@
 from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
 from pydantic import Field, field_validator
-from typing import Optional, Union
+from typing import Optional
 from typing_extensions import Annotated
 from library_api.models.cpnh_tsch200_response import CPNhTSCh200Response
 from library_api.models.cpnh_tsch_request import CPNhTSChRequest
@@ -23,8 +23,8 @@ class BaseBooksApi:
         BaseBooksApi.subclasses = BaseBooksApi.subclasses + (cls,)
     async def ly_danh_sch_sch(
         self,
-        page: Annotated[Optional[float], Field(description="Số trang")],
-        limit: Annotated[Optional[float], Field(description="Số lượng mỗi trang")],
+        page: Annotated[Optional[int], Field(description="Số trang")],
+        limit: Annotated[Optional[int], Field(description="Số lượng mỗi trang")],
         search: Annotated[Optional[str], Field(description="Tìm theo tiêu đề hoặc tác giả")],
         genre: Annotated[Optional[str], Field(description="Lọc theo thể loại")],
     ) -> LYDanhSChSCh200Response:
@@ -42,7 +42,7 @@ class BaseBooksApi:
 
     async def ly_thng_tin_mt_sch(
         self,
-        id: Annotated[float, Field(description="ID của sách")],
+        id: Annotated[int, Field(description="ID của sách")],
     ) -> LYThNgTinMTSCh200Response:
         """"""
         ...
@@ -50,7 +50,7 @@ class BaseBooksApi:
 
     async def cp_nht_sch(
         self,
-        id: Annotated[float, Field(description="ID của sách")],
+        id: Annotated[int, Field(description="ID của sách")],
         cpnh_tsch_request: Optional[CPNhTSChRequest],
     ) -> CPNhTSCh200Response:
         """"""
@@ -59,7 +59,7 @@ class BaseBooksApi:
 
     async def xo_sch(
         self,
-        id: Annotated[float, Field(description="ID của sách")],
+        id: Annotated[int, Field(description="ID của sách")],
     ) -> XoSCh200Response:
         """"""
         ...

@@ -3,8 +3,8 @@
 from fastapi.testclient import TestClient
 
 
-from pydantic import Field, StrictFloat, StrictInt, StrictStr, field_validator  # noqa: F401
-from typing import Optional, Union  # noqa: F401
+from pydantic import Field, StrictInt, StrictStr, field_validator  # noqa: F401
+from typing import Optional  # noqa: F401
 from typing_extensions import Annotated  # noqa: F401
 from library_api.models.cpnh_tsch200_response import CPNhTSCh200Response  # noqa: F401
 from library_api.models.cpnh_tsch_request import CPNhTSChRequest  # noqa: F401
@@ -68,7 +68,7 @@ def test_ly_thng_tin_mt_sch(client: TestClient):
     # uncomment below to make a request
     #response = client.request(
     #    "GET",
-    #    "/books/{id}".format(id=3.4),
+    #    "/books/{id}".format(id=56),
     #    headers=headers,
     #)
 
@@ -88,7 +88,7 @@ def test_cp_nht_sch(client: TestClient):
     # uncomment below to make a request
     #response = client.request(
     #    "PUT",
-    #    "/books/{id}".format(id=3.4),
+    #    "/books/{id}".format(id=56),
     #    headers=headers,
     #    json=cpnh_tsch_request,
     #)
@@ -108,7 +108,7 @@ def test_xo_sch(client: TestClient):
     # uncomment below to make a request
     #response = client.request(
     #    "DELETE",
-    #    "/books/{id}".format(id=3.4),
+    #    "/books/{id}".format(id=56),
     #    headers=headers,
     #)
 
