@@ -49,3 +49,8 @@ htmlcov/
 .vscode/
 .idea/
 *.log
+
+# Ignore all hidden files and folders
+.*
+# Do not ignore .gitignore itself
+!.gitignore
