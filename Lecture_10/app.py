@@ -3,7 +3,7 @@ import time
 
 from flask import Flask, Response, jsonify, request
 
-from observability import metrics, setup_observability
+from observability import CONTENT_TYPE_LATEST, metrics, setup_observability
 from security import require_api_key, setup_security
 
 
@@ -27,20 +27,20 @@ class CircuitBreaker:
         if time.time() - self.opened_at >= self.recovery_timeout:
             self.failure_count = 0
             self.opened_at = None
-            metrics.circuit_breaker_state = 0
+            metrics.set_circuit_breaker_open(False)
             return False
         return True
 
     def record_success(self):
         self.failure_count = 0
         self.opened_at = None
-        metrics.circuit_breaker_state = 0
+        metrics.set_circuit_breaker_open(False)
 
     def record_failure(self):
         self.failure_count += 1
         if self.failure_count >= self.failure_threshold:
             self.opened_at = time.time()
-            metrics.circuit_breaker_state = 1
+            metrics.set_circuit_breaker_open(True)
 
 
 inventory_breaker = CircuitBreaker()
@@ -76,7 +76,7 @@ def create_app():
 
     @app.route("/metrics")
     def metrics_endpoint():
-        return Response(metrics.render_prometheus(), mimetype="text/plain; version=0.0.4")
+        return Response(metrics.render_prometheus(), content_type=CONTENT_TYPE_LATEST)
 
     @app.route("/api/v1/products")
     def get_products():
@@ -147,4 +147,3 @@ if __name__ == "__main__":
     app = create_app()
     print("Lecture 10 API is running on http://127.0.0.1:5010")
     app.run(host="0.0.0.0", port=5010, debug=True)
-

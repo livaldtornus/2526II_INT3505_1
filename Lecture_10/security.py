@@ -1,7 +1,9 @@
 import re
+import os
 import time
 from collections import defaultdict, deque
 from functools import wraps
+from urllib.parse import unquote_plus
 
 from flask import g, jsonify, request
 
@@ -9,8 +11,8 @@ from observability import audit_logger, metrics
 
 
 API_KEYS = {
-    "demo-admin-key": "admin",
-    "demo-service-key": "service",
+    os.getenv("DEMO_ADMIN_KEY", "demo-admin-key"): "admin",
+    os.getenv("DEMO_SERVICE_KEY", "demo-service-key"): "service",
 }
 
 SUSPICIOUS_PATTERNS = [
@@ -66,19 +68,21 @@ def audit(event_type, status, details=None):
 def setup_security(app):
     @app.before_request
     def waf_and_rate_limit():
-        if request.endpoint in {"metrics", "health"}:
+        if request.endpoint in {"metrics_endpoint", "health"}:
             return None
 
-        raw_target = "%s?%s" % (request.path, request.query_string.decode("utf-8", errors="ignore"))
+        raw_query = request.query_string.decode("utf-8", errors="ignore")
+        raw_target = "%s?%s" % (request.path, raw_query)
         body = request.get_data(as_text=True) if request.content_length else ""
         combined = "%s %s" % (raw_target, body[:2000])
+        decoded_combined = unquote_plus(combined)
 
         if request.content_length and request.content_length > 16 * 1024:
             audit("waf_block", "blocked", {"reason": "payload_too_large"})
             return jsonify({"error": "Payload too large", "trace_id": g.get("trace_id")}), 413
 
         for pattern in SUSPICIOUS_PATTERNS:
-            if pattern.search(combined):
+            if pattern.search(decoded_combined):
                 audit("waf_block", "blocked", {"pattern": pattern.pattern})
                 return jsonify({"error": "Request blocked by WAF", "trace_id": g.get("trace_id")}), 403
 
@@ -124,4 +128,3 @@ def require_api_key(required_role=None):
         return wrapper
 
     return decorator
-
