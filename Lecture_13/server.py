@@ -1,5 +1,5 @@
 from collections import defaultdict, deque
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from functools import wraps
 from uuid import uuid4
 
@@ -129,7 +129,7 @@ analytics = {
 
 
 def now_iso():
-    return datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+    return datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def public_developer(developer):
@@ -175,7 +175,7 @@ def require_api_key(func):
 
         plan = PLANS[developer["plan"]]
         window = usage_windows[api_key]
-        cutoff = datetime.utcnow() - timedelta(minutes=1)
+        cutoff = datetime.now(UTC) - timedelta(minutes=1)
         while window and window[0] < cutoff:
             window.popleft()
 
@@ -188,7 +188,7 @@ def require_api_key(func):
                 "upgrade_url": "/api/plans",
             }), 429
 
-        window.append(datetime.utcnow())
+        window.append(datetime.now(UTC))
         return func(developer, *args, **kwargs)
 
     return wrapper
